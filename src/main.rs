@@ -1,29 +1,26 @@
-use iced::{Application, Command, Element, Settings, Text};
+use iced::widget::text;
+use iced::Element;
 
 pub fn main() -> iced::Result {
-    BreakevenApp::run(Settings::default())
+    iced::run(
+        "EV Charging Tariff Breakeven Analysis",
+        BreakevenApp::update,
+        BreakevenApp::view,
+    )
 }
 
+#[derive(Default)]
 struct BreakevenApp;
 
-impl Application for BreakevenApp {
-    type Executor = iced::executor::Default;
-    type Message = ();  // Modify this to define messages as needed
-    type Flags = ();    // Modify this to handle application flags if needed
+#[derive(Debug, Clone)]
+enum Message {}
 
-    fn new(_flags: Self::Flags) -> (Self, Command<Self::Message>) {
-        (BreakevenApp, Command::none())
+impl BreakevenApp {
+    fn update(&mut self, _message: Message) -> iced::Task<Message> {
+        iced::Task::none()
     }
 
-    fn title(&self) -> String {
-        String::from("EV Charging Tariff Breakeven Analysis")
-    }
-
-    fn update(&mut self, _message: Self::Message) -> Command<Self::Message> {
-        Command::none()
-    }
-
-    fn view(&mut self) -> Element<Self::Message> {
-        Text::new("Welcome to the EV Charging Tariff Breakeven Analysis Application!").into()
+    fn view(&self) -> Element<Message> {
+        text("Welcome to the EV Charging Tariff Breakeven Analysis Application!").into()
     }
 }
