@@ -1,0 +1,8 @@
+/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/iced_renderer-d2b36b95790f21b0.d: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/fallback.rs
+
+/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/libiced_renderer-d2b36b95790f21b0.rlib: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/fallback.rs
+
+/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/libiced_renderer-d2b36b95790f21b0.rmeta: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/fallback.rs
+
+/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/lib.rs:
+/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/iced_renderer-0.13.0/src/fallback.rs:

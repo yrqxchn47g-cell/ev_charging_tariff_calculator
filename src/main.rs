@@ -1,5 +1,5 @@
 use iced::widget::Text;
-use iced::{Alignment, Element, Sandbox, Settings};
+use iced::{Element, Sandbox, Settings};
 
 pub fn main() -> iced::Result {
     BreakevenApp::run(Settings::default())
@@ -22,7 +22,7 @@ impl Sandbox for BreakevenApp {
     fn update(&mut self, _message: Self::Message) {
     }
 
-    fn view(&self) -> Element<Self::Message> {
+    fn view(&self) -> Element<'_, Self::Message> {
         Text::new("Welcome to the EV Charging Tariff Breakeven Analysis Application!")
             .into()
     }

@@ -1,0 +1,6 @@
+/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/dirs-c17e0350d958ef75.d: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dirs-6.0.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dirs-6.0.0/src/mac.rs
+
+/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/libdirs-c17e0350d958ef75.rmeta: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dirs-6.0.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dirs-6.0.0/src/mac.rs
+
+/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dirs-6.0.0/src/lib.rs:
+/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dirs-6.0.0/src/mac.rs:

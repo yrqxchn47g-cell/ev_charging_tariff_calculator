@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clippy-Fehleranalyse – ev_charging_tariff_calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --primary: #2c3e6b;
+      --accent: #e15759;
+      --ok: #59a14f;
+      --text: #2d2d2d;
+      --muted: #7a8499;
+      --border: #dce1ea;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 2rem 2.5rem 1.5rem;
+    }
+    header h1 { font-size: 1.8rem; font-weight: 700; }
+    header p  { opacity: .75; margin-top: .3rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 2rem 0 1rem;
+      padding-bottom: .4rem;
+      border-bottom: 2px solid var(--border);
+    }
+    h2 .num { color: var(--muted); font-weight: 400; font-size: 1rem; margin-left: .4rem; }
+    /* KPI cards */
+    .kpi-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .kpi {
+      flex: 1 1 160px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .kpi .val {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .kpi .lbl { font-size: .85rem; color: var(--muted); margin-top: .3rem; }
+    .kpi.danger .val { color: var(--accent); }
+    .kpi.ok    .val { color: var(--ok); }
+    /* Chart grid */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .chart-card h3 { font-size: 1rem; color: var(--primary); margin-bottom: 1rem; }
+    .chart-wrap { position: relative; height: 300px; }
+    /* Tables */
+    .tbl-wrap { overflow-x: auto; margin-bottom: 1rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      background: var(--card);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    thead { background: var(--primary); color: #fff; }
+    th, td { padding: .65rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f0f3fa; }
+    .badge {
+      display: inline-block;
+      padding: .15rem .55rem;
+      border-radius: 12px;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .badge-warn  { background: #fff3cd; color: #856404; }
+    .badge-err   { background: #f8d7da; color: #842029; }
+    .badge-ok    { background: #d1e7dd; color: #0a3622; }
+    .badge-fix   { background: #cfe2ff; color: #084298; }
+    .pct-bar {
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .pct-bg {
+      flex: 1; height: 10px; background: #e9ecef; border-radius: 5px; overflow: hidden;
+    }
+    .pct-fill { height: 100%; border-radius: 5px; }
+    /* Comparison */
+    .compare-row {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .compare-card {
+      flex: 1 1 280px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .compare-card h3 { font-size: 1rem; margin-bottom: .8rem; color: var(--primary); }
+    .delta-positive { color: var(--ok); font-weight: 700; }
+    .delta-negative { color: var(--accent); font-weight: 700; }
+    /* Recommendations */
+    .rec-list { list-style: none; }
+    .rec-list li {
+      background: var(--card);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: .8rem 1rem;
+      margin-bottom: .7rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    }
+    .rec-list li code {
+      background: #eef2ff;
+      padding: .1rem .4rem;
+      border-radius: 4px;
+      font-size: .85rem;
+      color: var(--primary);
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-size: .82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🦀 Clippy-Fehleranalyse</h1>
+  <p>Projekt: <strong>ev_charging_tariff_calculator</strong></p>
+</header>
+<div class="container">
+
+<h2>1. Ausgangslage <span class="num">(vor der Behebung)</span></h2>
+<div class="kpi-row">
+  <div class="kpi danger">
+    <div class="val">0</div>
+    <div class="lbl">Gesamt (vor Fix)</div>
+  </div>
+  <div class="kpi danger">
+    <div class="val">0</div>
+    <div class="lbl">Warnungen</div>
+  </div>
+  <div class="kpi danger">
+    <div class="val">0</div>
+    <div class="lbl">Fehler</div>
+  </div>
+  <div class="kpi ok">
+    <div class="val">0</div>
+    <div class="lbl">Gesamt (nach Fix)</div>
+  </div>
+  <div class="kpi ok">
+    <div class="val">0</div>
+    <div class="lbl">Behoben</div>
+  </div>
+  <div class="kpi ok">
+    <div class="val">0.0%</div>
+    <div class="lbl">Behebungsrate</div>
+  </div>
+</div>
+<h2>2. Fehlerverteilung nach Typ <span class="num">(0 verschiedene Lints)</span></h2>
+<div class="chart-grid">
+  <div class="chart-card">
+    <h3>Lint-Verteilung (vor Fix) – Kreisdiagramm</h3>
+    <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>Top-Lints nach Häufigkeit (vor Fix)</h3>
+    <div class="chart-wrap"><canvas id="barLint"></canvas></div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Lint</th><th>Vor Fix</th><th>Nach Fix</th><th>Behoben</th><th>Anteil (vor)</th></tr></thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+<h2>3. Verteilung nach Code-Bereich</h2>
+<div class="chart-grid">
+  <div class="chart-card">
+    <h3>Lints pro Datei (vor Fix)</h3>
+    <div class="chart-wrap"><canvas id="barFile"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>Vergleich: Vor vs. Nach Fix (nach Datei)</h3>
+    <div class="chart-wrap"><canvas id="barFileCompare"></canvas></div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Datei</th><th>Vor Fix</th><th>Nach Fix</th><th>Behoben</th><th>Anteil</th></tr></thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+<h2>4. Durchgeführte Behebungen</h2>
+<p>Kein automatischer Fix angewendet (<code>--no-fix</code> Modus).</p>
+<h2>5. Ergebnis nach der Behebung</h2>
+<div class="compare-row">
+  <div class="compare-card">
+    <h3>Gesamtvergleich</h3>
+    <div class="chart-wrap" style="height:220px"><canvas id="barCompare"></canvas></div>
+  </div>
+  <div class="compare-card">
+    <h3>Kennzahlen im Vergleich</h3>
+    <table>
+      <thead><tr><th>Metrik</th><th>Vorher</th><th>Nachher</th><th>Δ</th></tr></thead>
+      <tbody>
+      <tr><td>Gesamt</td><td>0</td><td>0</td><td class="">±0</td></tr>
+      <tr><td>Warnungen</td><td>0</td><td>0</td><td class="">±0</td></tr>
+      <tr><td>Fehler</td><td>0</td><td>0</td><td class="">±0</td></tr>
+      <tr><td>Lint-Typen</td><td>0</td><td>0</td><td class="">±0</td></tr>
+      <tr><td>Betroffene Dateien</td><td>0</td><td>0</td><td class="">±0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="chart-card" style="margin-bottom:1.5rem">
+  <h3>Fortschritt der Fehlerbereinigung</h3>
+  <div class="chart-wrap" style="height:200px"><canvas id="progressChart"></canvas></div>
+</div>
+<h2>6. Hinweise &amp; Empfehlungen</h2>
+<ul class="rec-list">
+  <li>Ausgezeichnet! Kein einziger Clippy-Hinweis gefunden. Halten Sie diesen Standard aufrecht.</li>
+  <li>Integrieren Sie <code>cargo clippy -- -D warnings</code> in Ihre CI-Pipeline, um neue Lints sofort zu erkennen.</li>
+  <li>Verwenden Sie <code>cargo fmt</code> zusammen mit Clippy, um einheitlichen Stil sicherzustellen.</li>
+  <li>Regelmäßige Ausführung von <code>cargo clippy --all-targets --all-features</code> deckt auch Lints in Tests und Beispielen auf.</li>
+</ul>
+
+<script>
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+Chart.defaults.plugins.legend.position = "bottom";
+
+// 1. Pie chart – lint distribution (before)
+new Chart(document.getElementById('pieChart'), {
+  type: 'pie',
+  data: {
+    labels: [],
+    datasets: [{ data: [], backgroundColor: [], borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { tooltip: { callbacks: {
+      label: ctx => ` ${ctx.label}: ${ctx.raw} (${(ctx.parsed / 0 * 100).toFixed(1)}%)`
+    }}}
+  }
+});
+
+// 2. Bar chart – top lints (before)
+new Chart(document.getElementById('barLint'), {
+  type: 'bar',
+  data: {
+    labels: [],
+    datasets: [{ label: 'Anzahl Lints', data: [], backgroundColor: [] }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+  }
+});
+
+// 3. Bar chart – lints per file
+new Chart(document.getElementById('barFile'), {
+  type: 'bar',
+  data: {
+    labels: [],
+    datasets: [{ label: 'Lints', data: [], backgroundColor: [] }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+  }
+});
+
+// 4. Grouped bar chart – before vs after by file
+new Chart(document.getElementById('barFileCompare'), {
+  type: 'bar',
+  data: {
+    labels: [],
+    datasets: [
+      { label: 'Vor Fix',  data: [], backgroundColor: '#e15759' },
+      { label: 'Nach Fix', data: [],  backgroundColor: '#59a14f' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+  }
+});
+
+// 5. Comparison bar chart
+new Chart(document.getElementById('barCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['Gesamt', 'Warnungen', 'Fehler'],
+    datasets: [
+      { label: 'Vor Fix',  data: [0, 0, 0], backgroundColor: '#e15759' },
+      { label: 'Nach Fix', data: [0, 0, 0],   backgroundColor: '#59a14f' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+  }
+});
+
+// 6. Doughnut progress chart
+new Chart(document.getElementById('progressChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Behoben', 'Verbleibend'],
+    datasets: [{
+      data: [0, 0],
+      backgroundColor: ['#59a14f', '#e15759'],
+      borderWidth: 3, borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '65%',
+    plugins: {
+      tooltip: { callbacks: {
+        label: ctx => ` ${ctx.label}: ${ctx.raw} (${(ctx.raw / 1 * 100).toFixed(1)}%)`
+      }},
+      legend: { position: 'right' }
+    }
+  }
+});
+</script>
+<footer>Generiert von <strong>clippy-auswertung</strong> · 2026-04-05 13:28:38 UTC</footer>
+</div>
+</body>
+</html>
