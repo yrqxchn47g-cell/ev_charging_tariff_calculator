@@ -1,9 +1,0 @@
-/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/glyphon-46c3be96ce3b2449.d: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/error.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/text_atlas.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/text_render.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/shader.wgsl
-
-/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/deps/libglyphon-46c3be96ce3b2449.rmeta: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/error.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/text_atlas.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/text_render.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/shader.wgsl
-
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/lib.rs:
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/error.rs:
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/text_atlas.rs:
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/text_render.rs:
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glyphon-0.5.0/src/shader.wgsl:

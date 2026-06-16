@@ -1,9 +1,0 @@
-/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/release/deps/core_graphics_types-92394293c4cc6c61.d: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/base.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/geometry.rs
-
-/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/release/deps/libcore_graphics_types-92394293c4cc6c61.rlib: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/base.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/geometry.rs
-
-/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/release/deps/libcore_graphics_types-92394293c4cc6c61.rmeta: /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/lib.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/base.rs /Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/geometry.rs
-
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/lib.rs:
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/base.rs:
-/Users/juergenschneider/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core-graphics-types-0.1.3/src/geometry.rs:

@@ -1,2 +1,5 @@
 .DS_Store
 .claude/
+
+# Rust-Build-Artefakte
+target/

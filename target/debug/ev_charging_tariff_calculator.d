@@ -1,1 +1,0 @@
-/Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/target/debug/ev_charging_tariff_calculator: /Users/juergenschneider/Documents/GitHub/ev_charging_tariff_calculator/src/main.rs
