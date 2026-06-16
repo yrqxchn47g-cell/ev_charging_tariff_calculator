@@ -1,0 +1,8 @@
+{
+  "typ": "Rust",
+  "typ_override": "Rust",
+  "zweck": "Rechner für E-Auto-Ladetarife (Breakeven/Tarifvergleich) als native GUI (iced).",
+  "input": "Tarif-/Ladeparameter.",
+  "notiz": "Native Rust-GUI (iced 0.12). Binary 'ev_charging_tariff_calculator'. Hinweis: target/ ist im Git getrackt (Build-Artefakte) — separat zu bereinigen (.gitignore + git rm -r --cached target).",
+  "ausschluss": [".git", "target", "node_modules", "clippy-report"]
+}
